@@ -17,6 +17,7 @@ require('element-ui/lib/theme-default/index.css');
 Vue.use(require('element-ui'));
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('app-dashboard', require('./components/Dashboard.vue'));
 
 const app = new Vue({
     el: '#app'
