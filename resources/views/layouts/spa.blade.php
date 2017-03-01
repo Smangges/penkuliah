@@ -11,7 +11,7 @@
     <title>{{ $title or config('app.name', 'App') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/spa.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -26,6 +26,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/spa.js') }}"></script>
 </body>
 </html>

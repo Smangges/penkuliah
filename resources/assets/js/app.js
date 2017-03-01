@@ -6,7 +6,6 @@
  */
 
 require('./bootstrap');
-require('element-ui/lib/theme-default/index.css');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -14,10 +13,7 @@ require('element-ui/lib/theme-default/index.css');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.use(require('element-ui'));
-
 Vue.component('example', require('./components/Example.vue'));
-Vue.component('app-dashboard', require('./components/Dashboard.vue'));
 
 const app = new Vue({
     el: '#app'

@@ -19,6 +19,7 @@
     "node": "6.9.2"
   },
   "dependencies": {
-    "element-ui": "^1.2.1"
+    "element-ui": "^1.2.1",
+    "normalize.css": "^5.0.0"
   }
 }
