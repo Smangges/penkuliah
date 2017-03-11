@@ -16,6 +16,7 @@ $factory->define(App\Models\School\Score::class, function (Faker\Generator $fake
 
 $factory->define(App\Models\School\Student::class, function (Faker\Generator $faker) {
     return [
+        'id' => $faker->unique()->numberBetween(131400000, 131499999),
         'name' => $faker->name(),
         'generation' => $faker->randomElement([2010, 2011, 2012, 2013])
     ];

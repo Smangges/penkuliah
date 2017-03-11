@@ -14,7 +14,7 @@ class Student extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'generation'];
+    protected $fillable = ['id', 'name', 'generation'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -22,6 +22,13 @@ class Student extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
     /**
      * Get the colleger record associated with the student.
