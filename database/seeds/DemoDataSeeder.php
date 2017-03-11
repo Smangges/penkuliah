@@ -11,6 +11,7 @@ class DemoDataSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $this->call(DemoDataSchoolSeeder::class);
+        $this->call(DemoDataCollegeSeeder::class);
     }
 }
