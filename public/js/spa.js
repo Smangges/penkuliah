@@ -32859,6 +32859,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
   data: function data() {
@@ -32866,7 +32873,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       id: null,
       name: "",
       generation: null,
-      suggestions: []
+      suggestions: [],
+      showConfirmDelete: false,
+      nameToDelete: null,
+      idToDelete: null,
+      indexToDelete: null
     };
   },
 
@@ -32878,29 +32889,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       // todo
     },
     remove: function remove(index, data) {
-      // todo
+      this.nameToDelete = data.name;
+      this.idToDelete = data.id;
+      this.showConfirmDelete = true;
+      this.indexToDelete = index;
+    },
+    confirmDelete: function confirmDelete(idToDelete) {
+      var model = this;
+
+      this.showConfirmDelete = false;
+
+      axios.get('/api/data-entry/destroy', { params: { id: idToDelete } }).then(function (res) {
+        model.$notify({
+          title: "Success",
+          message: "\"" + model.nameToDelete + "\" is deleted",
+          type: "success"
+        });
+
+        model.suggestions.splice(model.indexToDelete, 1);
+
+        model.nameToDelete = null;
+        model.idToDelete = null;
+        model.indexToDelete = null;
+      }).catch(function (err) {
+        console.log(err);
+      });
     },
     filter: function filter() {
-      // todo
-      // dummy data
-      this.suggestions = [{
-        id: 131410244,
-        name: "Iqbal Mohammad Abdul Ghoni",
-        generation: 2013
-      }, {
-        id: 131410244,
-        name: "Rafifa Luthfarida",
-        generation: 2013
-      }, {
-        id: 131410244,
-        name: "Safnah Nur Safira",
-        generation: 2013
-      }, {
-        id: 131410244,
-        name: "Aditia Nugraha",
-        generation: 2013
-      }];
-      // end dummy data
+      var params = {};
+      var model = this;
+
+      if (model.id) {
+        params.id = model.id;
+      }
+
+      if (model.name) {
+        params.name = model.name;
+      }
+
+      if (model.generation) {
+        params.generation = model.generation;
+      }
+
+      axios.get('/api/data-entry/filter', { params: params }).then(function (res) {
+        if (!res.data) {
+          return null;
+        }
+
+        model.suggestions = res.data;
+      }).catch(function (err) {
+        console.log(err);
+      });
     },
     clear: function clear() {
       this.suggestions = [];
@@ -65526,7 +65565,36 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }, [_vm._v("Remove")])]
       }]
     ])
-  })], 1)], 1)], 1) : _vm._e()], 1)
+  })], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "Confirm Deletion",
+      "size": "tiny"
+    },
+    model: {
+      value: (_vm.showConfirmDelete),
+      callback: function($$v) {
+        _vm.showConfirmDelete = $$v
+      }
+    }
+  }, [_c('span', [_vm._v("Are you sure want to delete \"" + _vm._s(_vm.nameToDelete) + "/" + _vm._s(_vm.idToDelete) + "\"?")]), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    slot: "footer"
+  }, [_c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.showConfirmDelete = false
+      }
+    }
+  }, [_vm._v("Cancel")]), _vm._v(" "), _c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": function($event) {
+        _vm.confirmDelete(_vm.idToDelete)
+      }
+    }
+  }, [_vm._v("Confirm")])], 1)])], 1) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

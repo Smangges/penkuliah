@@ -41,6 +41,13 @@
           </el-table-column>
         </el-table>
       </el-col>
+      <el-dialog title="Confirm Deletion" v-model="showConfirmDelete" size="tiny">
+        <span>Are you sure want to delete "{{ nameToDelete }}/{{ idToDelete }}"?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button v-on:click="showConfirmDelete = false">Cancel</el-button>
+          <el-button type="primary" v-on:click="confirmDelete(idToDelete)">Confirm</el-button>
+        </span>
+      </el-dialog>
     </el-row>
   </div>
 </template>
@@ -52,7 +59,11 @@
         id: null,
         name: "",
         generation: null,
-        suggestions: []
+        suggestions: [],
+        showConfirmDelete: false,
+        nameToDelete: null,
+        idToDelete: null,
+        indexToDelete: null
       }
     },
     methods: {
@@ -65,35 +76,63 @@
       },
 
       remove(index, data) {
-        // todo
+        this.nameToDelete = data.name;
+        this.idToDelete = data.id;
+        this.showConfirmDelete = true;
+        this.indexToDelete = index;
+      },
+
+      confirmDelete(idToDelete) {
+        var model = this;
+
+        this.showConfirmDelete = false;
+
+        axios.get('/api/data-entry/destroy', { params: { id: idToDelete }})
+          .then(function(res) {
+            model.$notify({
+              title: "Success",
+              message: "\""+model.nameToDelete+"\" is deleted",
+              type: "success"
+            });
+
+            model.suggestions.splice(model.indexToDelete, 1);
+
+            model.nameToDelete = null;
+            model.idToDelete = null;
+            model.indexToDelete = null;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
       },
 
       filter() {
-        // todo
-        // dummy data
-        this.suggestions = [
-          {
-            id: 131410244,
-            name: "Iqbal Mohammad Abdul Ghoni",
-            generation: 2013
-          },
-          {
-            id: 131410244,
-            name: "Rafifa Luthfarida",
-            generation: 2013
-          },
-          {
-            id: 131410244,
-            name: "Safnah Nur Safira",
-            generation: 2013
-          },
-          {
-            id: 131410244,
-            name: "Aditia Nugraha",
-            generation: 2013
-          }
-        ];
-        // end dummy data
+        var params = {};
+        var model = this;
+
+        if (model.id) {
+          params.id = model.id;
+        }
+
+        if (model.name) {
+          params.name = model.name;
+        }
+
+        if (model.generation) {
+          params.generation = model.generation;
+        }
+
+        axios.get('/api/data-entry/filter', { params: params })
+          .then(function(res) {
+            if (!res.data) {
+              return null;
+            }
+
+            model.suggestions = res.data;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
       },
 
       clear() {
