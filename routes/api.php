@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => '/data-entry'], function() {
+    Route::get('/filter', 'Entry\FilterAPIController@index');
+    Route::get('/destroy', 'Entry\FilterAPIController@destroy');
+});
