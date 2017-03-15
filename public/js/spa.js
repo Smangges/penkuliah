@@ -32883,7 +32883,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     add: function add() {
-      // todo
+      var model = this;
+      axios.post('/api/data-entry/add', {
+        id: this.id,
+        name: this.name,
+        generation: this.generation
+      }).then(function (res) {
+        model.$notify({
+          title: "Success",
+          message: model.name + " is added!",
+          type: "success"
+        });
+        model.clear();
+      }).catch(function (err) {
+        if (err.response.status && err.response.status == 422) {
+          var messages = [];
+          var ems, em;
+
+          for (ems in err.response.data) {
+            for (em in err.response.data[ems]) {
+              messages.push(err.response.data[ems][em]);
+            }
+          }
+
+          model.$notify({
+            title: "Invalid",
+            message: messages.join(' '),
+            type: "error"
+          });
+
+          return false;
+        }
+
+        model.$notify({
+          title: "Error",
+          message: model.name + " failed to be added!",
+          type: "error"
+        });
+      });
     },
     edit: function edit(index, data) {
       // todo

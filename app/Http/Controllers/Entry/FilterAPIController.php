@@ -32,6 +32,29 @@ class FilterAPIController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, Student $student)
+    {
+        $this->validate($request, [
+            'id' => 'required|integer|unique:students,id',
+            'name' => 'required',
+            'generation' => 'required|integer'
+        ]);
+
+        $student = $student->create($request->only('id', 'name', 'generation'));
+
+        if (!$student) {
+            return abort(400);
+        }
+
+        return $student;
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\School\Student  $student

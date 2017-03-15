@@ -19,5 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => '/data-entry'], function() {
     Route::get('/filter', 'Entry\FilterAPIController@index');
+    Route::post('/add', 'Entry\FilterAPIController@store');
     Route::get('/destroy', 'Entry\FilterAPIController@destroy');
 });
