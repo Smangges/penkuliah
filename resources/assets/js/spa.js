@@ -19,6 +19,7 @@ Vue.use(require('element-ui'));
 Vue.component('app-dashboard', require('./components/Dashboard.vue'));
 Vue.component('app-entry-filter', require('./components/Entry/Filter.vue'));
 Vue.component('app-entry-editor', require('./components/Entry/Editor.vue'));
+Vue.component('app-entry', require('./components/Entry/Entry.vue'));
 
 const app = new Vue({
     el: '#app'

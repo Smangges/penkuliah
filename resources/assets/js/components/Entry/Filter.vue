@@ -109,7 +109,7 @@
       },
 
       edit(index, data) {
-        // todo
+        this.$emit('edit', data);
       },
 
       remove(index, data) {
